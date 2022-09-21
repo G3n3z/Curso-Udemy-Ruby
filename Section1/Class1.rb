@@ -3,3 +3,5 @@ p address
 p address[2]
 reverse = address.reverse
 p reverse
+
+p 'Daniel ask \'Hi\''
