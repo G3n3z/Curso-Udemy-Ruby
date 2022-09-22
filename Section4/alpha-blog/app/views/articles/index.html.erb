@@ -1,0 +1,21 @@
+<p1>Article list page</p1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Actions</th>
+    </tr>
+
+  </thead>
+  <tbody>
+  <% @articles.each do |article| %>
+    <tr>
+      <td><%= article.title %></td>
+      <td><%= article.description %></td>
+      <td><%= link_to  "Show", article_path(article.id) %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
