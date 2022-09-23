@@ -15,11 +15,24 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
+    @user = User.find_by_id(params[:id])
+    unless @user
+      redirect_to root_path
+    end
+
+
+
   end
 
   def update
-
+    @user = User.find_by_id(params[:id])
+    p params
+    if @user.update(user_params_to_signup)
+      flash[:notice] = "Your account informations was successfully updated"
+      redirect_to articles_path
+    else
+      render "edit"
+    end
   end
 
   def show
