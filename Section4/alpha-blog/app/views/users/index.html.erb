@@ -1,0 +1,20 @@
+<h1 class="text-center mt-4">
+  Alpha Bloggers
+</h1>
+<div class="flickr_pagination mb-4">
+  <div class="page_info">
+    <%= page_entries_info @users %>
+  </div>
+  <%= will_paginate(@users, :container => false) %>
+</div>
+
+<% @users.each do |user| %>
+  <%= render "users/user", user:user %>
+<% end %>
+
+<div class="flickr_pagination mb-4">
+  <div class="page_info">
+    <%= page_entries_info @users %>
+  </div>
+  <%= will_paginate(@users, :container => false) %>
+</div>
