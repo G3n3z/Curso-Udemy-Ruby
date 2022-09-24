@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:edit, :show, :update]
-  before_action :require_user, only: [:edit, :update]
-  before_action :require_same_user, only: [:edit, :update]
+  before_action :set_user, only: [:edit, :show, :update, :destroy]
+  before_action :require_user, only: [:edit, :update, :destroy]
+  before_action :require_same_user, only: [:edit, :update, :destroy]
 
   def index
     @users = User.paginate(page: params[:page], per_page: 2)
@@ -47,6 +47,12 @@ class UsersController < ApplicationController
 
   end
 
+  def destroy
+    session[:user_id] = nil if @user.id == session[:user_id]
+    @user.destroy
+    redirect_to root_path
+  end
+
   private
   def user_params_to_signup
     params.require(:user).permit(:email, :username, :password)
@@ -57,7 +63,7 @@ class UsersController < ApplicationController
   end
 
   def require_same_user
-    if current_user != @user
+    if current_user != @user && !current_user.admin?
       flash[:alert] = "You can only edit your own account"
       redirect_to @user
     end
