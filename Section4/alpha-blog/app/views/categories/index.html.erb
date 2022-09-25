@@ -1,0 +1,19 @@
+<h1 class="text-center mt-4">Categories</h1>
+
+<div class="flickr_pagination mb-4">
+  <div class="page_info">
+    <%= page_entries_info @categories %>
+  </div>
+  <%= will_paginate(@categories, :container => false) %>
+</div>
+<% @categories.each do |category| %>
+  <%= render "category", category: category %>
+<% end %>
+
+
+<div class="flickr_pagination mb-4">
+  <div class="page_info">
+    <%= page_entries_info @categories %>
+  </div>
+  <%= will_paginate(@categories, :container => false) %>
+</div>
