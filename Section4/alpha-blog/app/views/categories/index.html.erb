@@ -7,7 +7,7 @@
   <%= will_paginate(@categories, :container => false) %>
 </div>
 <% @categories.each do |category| %>
-  <%= render "category", category: category %>
+  <%= render "category-comp", category: category %>
 <% end %>
 
 
