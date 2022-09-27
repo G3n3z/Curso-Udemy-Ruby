@@ -1,6 +1,12 @@
 class ChatroomController < ApplicationController
 
   def index
-    @messages = Message.all
+    unless logged_in?
+      redirect_to login_path
+    end
+    @messages = Message.custom_display
+    @message = Message.new
   end
+
+
 end
