@@ -12,7 +12,7 @@ class StocksController < ApplicationController
       #render "users/my_portfolio", method: :get
       else
         respond_to do |format|
-          flash[:alert] = "Please enter a valid symbol to search"
+          flash.now[:alert] = "Please enter a valid symbol to search"
           format.js{ render partial: 'users/result'}
         end
         #redirect_to my_portofolio_path
@@ -21,7 +21,7 @@ class StocksController < ApplicationController
       #flash[:alert] = "Please enter a symbol to search"
       #redirect_to my_portofolio_path
       respond_to do |format|
-        flash[:alert] = "Please enter a symbol to search"
+        flash.now[:alert] = "Please enter a symbol to search"
         format.js{ render partial: 'users/result'}
       end
     end
