@@ -2,6 +2,7 @@ class UsersController < ApplicationController
 
   def my_portfolio
     @tracked_stocks = current_user.stocks
+    @user = current_user
   end
 
   def my_friends
@@ -11,29 +12,38 @@ class UsersController < ApplicationController
   def search
     if params[:friend].present?
       name = params[:friend]
-      @friend = current_user.friends.where(email: name).first
-      name = name.split(' ')
-      if name.length == 1
-        @friend = current_user.friends.where("first_name = ? or last_name = ?", name[0], name[0]).first
-      elsif name.length > 1
-        @friend = current_user.friends.where("first_name = ? or last_name = ? ", name[0], name[1]).first
-      end
-
-      if @friend
+      @friends = User.search(name)
+      @friends = current_user.except_current_user(@friends) if @friends
+      #@friends.delete(current_user) if @friends
+      if @friends
         respond_to do |format|
           format.js{render partial: "users/friend_result"}
         end
       else
         respond_to do |format|
           flash[:alert] = "Couldn't find user"
-          format.js{render partial: "users/friend_result"}
+          format.js{render partial: "users/friend_result"
+          }
         end
       end
     else
       respond_to do |format|
-        flash[:alert] = "Please enter a symbol"
-        format.js{render partial: "users/friend_result"}
+        flash[:alert] = "Please enter a friend name or email to search"
+        format.js{render partial: "users/friend_result"
+        }
       end
     end
   end
+
+  def show
+    friend_id = params[:id]
+    @user = User.find(friend_id)
+    @tracked_stocks = @user.stocks
+    unless @user
+      flash[:error] = "Problem with finding User Profile"
+      redirect_to root_path
+    end
+
+  end
+
 end

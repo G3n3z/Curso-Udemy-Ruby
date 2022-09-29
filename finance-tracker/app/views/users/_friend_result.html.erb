@@ -1,6 +1,24 @@
+<div class="results-block">
+  <%= render 'layouts/messages' %>
+</div>
+
 <div class="card card-header results-block">
-  <strong> Symbol: </strong><%= @stock.ticker%>
-  <strong> Name: </strong><%= @stock.name%>
-  <strong> Price: </strong><%= @stock.last_price%>
-  <%= link_to "Follow friend", "", class: "btn btn-sm btn-success" %>
+  <table class="col-md-12">
+    <tbody>
+      <% @friends.each do |friend| %>
+      <tr class="mt-5 mb-5">
+        <td><strong> Email: </strong><%= friend.email%></td>
+        <td> <strong> Name: </strong><%= friend.full_name%></td>
+        <td>
+          <strong> Actions: </strong><%= link_to "View Profile", user_path(friend), class: "btn btn-sm btn-success"%>
+          <% if current_user.not_firends_with?(friend.id) %>
+          <%= link_to "Follow friend", friendships_path(friend: friend), class: "btn btn-sm btn-success", method: :post %>
+          <%else %>
+            <span class="badge badge-secondary"> You are friends</span>
+          <%end %>
+        </td>
+      </tr>
+      <%end %>
+    </tbody>
+  </table>
 </div>
